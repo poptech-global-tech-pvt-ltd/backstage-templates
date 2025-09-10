@@ -1,0 +1,74 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: request-database
+  title: Request new database (Terraform)
+  description: Request a new database from DevOps Team
+spec:
+  owner: team:infra
+  type: database
+
+  parameters:
+    - title: Database information
+      required: [dbName, environment, engine]
+      properties:
+        dbName:
+          title: Database Name
+          type: string
+          description: The name of the database (must be unique).
+        engine:
+          title: Engine
+          type: string
+          description: Type of database engine
+          enum: [postgres, mysql, aurora]
+          default: postgres
+        instanceClass:
+          title: Instance Class
+          type: string
+          description: DB instance size
+          default: db.t3.medium
+        environment:
+          title: Environment
+          type: string
+          description: Target environment for this DB
+          enum: [dev, staging, prod]
+          default: dev
+        owner:
+          title: Owner
+          type: string
+          description: Team or person responsible for this DB
+        targetRepo:
+          title: Terraform Repository
+          type: string
+          ui:
+            field: RepoUrlPicker
+            options:
+              allowedHosts:
+                - github.com
+
+  steps:
+    - id: fetch-skeleton
+      name: Fetch Terraform skeleton
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          dbName: ${{ parameters.dbName }}
+          engine: ${{ parameters.engine }}
+          instanceClass: ${{ parameters.instanceClass }}
+          environment: ${{ parameters.environment }}
+          owner: ${{ parameters.owner }}
+
+    - id: create-pr
+      name: Open Pull Request in Terraform repo
+      action: publish:github:pull-request
+      input:
+        repoUrl: ${{ parameters.targetRepo }}
+        branchName: db-${{ parameters.dbName }}-${{ parameters.environment }}
+        title: "feat: add database ${{ parameters.dbName }} (${ { parameters.environment }})"
+        description: |
+          This PR adds a Terraform module for database `${{ parameters.dbName }}`.
+          
+          - Engine: ${{ parameters.engine }}
+          - Instance: ${{ parameters.instanceClass }}
+          - Environment: ${{ paramete
