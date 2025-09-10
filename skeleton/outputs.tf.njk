@@ -1,0 +1,14 @@
+output "db_endpoint" {
+  description = "The connection endpoint for the database"
+  value       = aws_db_instance.{{ parameters.dbName }}.address
+}
+
+output "db_name" {
+  description = "The name of the database"
+  value       = aws_db_instance.{{ parameters.dbName }}.db_name
+}
+
+output "db_identifier" {
+  description = "The RDS instance identifier"
+  value       = aws_db_instance.{{ parameters.dbName }}.id
+}
