@@ -1,0 +1,29 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = var.region
+}
+
+resource "aws_db_instance" "{{ parameters.dbName }}" {
+  identifier        = "{{ parameters.dbName }}-{{ parameters.environment }}"
+  engine            = "{{ parameters.engine }}"
+  instance_class    = "{{ parameters.instanceClass }}"
+  allocated_storage = 20
+  db_name           = "{{ parameters.dbName }}"
+  username          = var.db_username
+  password          = var.db_password
+  skip_final_snapshot = true
+
+  tags = {
+    Name        = "{{ parameters.dbName }}"
+    Environment = "{{ parameters.environment }}"
+    Owner       = "{{ parameters.owner }}"
+  }
+}
