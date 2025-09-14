@@ -50,6 +50,7 @@ spec:
     - id: fetch-skeleton
       name: Fetch Terraform skeleton
       action: fetch:template
+      targetPath: ./target
       input:
         url: ./skeleton
         values:
@@ -58,17 +59,24 @@ spec:
           instanceClass: ${{ parameters.instanceClass }}
           environment: ${{ parameters.environment }}
           owner: ${{ parameters.owner }}
-
-    - id: create-pr
-      name: Open Pull Request in Terraform repo
-      action: publish:github:pull-request
+    - id: print-terraform-file 
+      name: Print Terraform file
+      action: script:bash
       input:
-        repoUrl: ${{ parameters.targetRepo }}
-        branchName: db-${{ parameters.dbName }}-${{ parameters.environment }}
-        title: "feat: add database ${{ parameters.dbName }} (${ { parameters.environment }})"
-        description: |
-          This PR adds a Terraform module for database `${{ parameters.dbName }}`.
+        script: |
+          echo "Generated Terraform file:"
+          cat ./target/main.tf
+
+    # - id: create-pr
+    #   name: Open Pull Request in Terraform repo
+    #   action: publish:github:pull-request
+    #   input:
+    #     repoUrl: ${{ parameters.targetRepo }}
+    #     branchName: db-${{ parameters.dbName }}-${{ parameters.environment }}
+    #     title: "feat: add database ${{ parameters.dbName }} (${ { parameters.environment }})"
+    #     description: |
+    #       This PR adds a Terraform module for database `${{ parameters.dbName }}`.
           
-          - Engine: ${{ parameters.engine }}
-          - Instance: ${{ parameters.instanceClass }}
-          - Environment: ${{ paramete
+    #       - Engine: ${{ parameters.engine }}
+    #       - Instance: ${{ parameters.instanceClass }}
+    #       - Environment: ${{ paramete
