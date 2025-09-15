@@ -61,11 +61,9 @@ spec:
           owner: ${{ parameters.owner }}
     - id: print-terraform-file 
       name: Print Terraform file
-      action: script:bash
+      action: pop:pr
       input:
-        script: |
-          echo "Generated Terraform file:"
-          cat ./target/main.tf
+        targetFile: "./targetFile"
 
     # - id: create-pr
     #   name: Open Pull Request in Terraform repo
