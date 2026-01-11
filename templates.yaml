@@ -7,5 +7,5 @@ metadata:
 spec:
   type: url
   targets:
-    - ./request-new-rds-database/template.yaml
+    - request-new-rds-database/template.yaml
     # Add all your template paths here
