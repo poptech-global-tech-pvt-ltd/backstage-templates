@@ -1,0 +1,11 @@
+# all.yaml in your backstage-templates repo
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: backstage-templates
+  description: All templates in this repository
+spec:
+  type: url
+  targets:
+    - ./request-new-rds-database/template.yaml
+    # Add all your template paths here
