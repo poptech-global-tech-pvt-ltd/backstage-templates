@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: request-database
-  title: Request new database (Terraform)
+  title: Request New Database (Create Terraform PR)
   description: Request a new database from DevOps Team
 spec:
   owner: team:infra
