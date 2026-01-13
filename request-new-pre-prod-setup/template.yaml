@@ -28,9 +28,8 @@ spec:
       name: Copy K8s Files
       action: fetch:plain
       input:
-        repoUrl: ${{ parameters.RepoUrl }}/tree/main/k8s
-        teamName: ${{ parameters.TeamName }}
-        owner: ${{ parameters.Owner }}
+        url: ${{ parameters.RepoUrl }}/tree/main/k8s
+        targetPath: ./k8s-files
     - id: debug-list
       name: List Workspace Files
       action: debug:log
