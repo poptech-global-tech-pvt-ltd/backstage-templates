@@ -8,4 +8,5 @@ spec:
   type: url
   targets:
     - request-new-rds-database/template.yaml
+    - request-new-pre-prod-setup/template.yaml
     # Add all your template paths here
