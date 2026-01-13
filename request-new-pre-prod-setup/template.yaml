@@ -1,0 +1,41 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: request-pre-prod
+  title: Request Pre-Prod Setup For Your Existing Service
+  description: Request Pre-Prod Setup For Your Existing Service
+spec:
+  owner: team:infra
+  parameters:
+    - title: Setup Details
+      required: [RepoUrl, TeamName, Owner]
+      properties:
+        dbName:
+          title: Repository URL
+          type: string
+          description: URL of the existing service repository in Github
+        TeamName:
+          title: Team Name
+          type: string
+          description: Name of the team requesting the pre-prod setup
+        Owner:
+          title: Owner
+          type: string
+          description: Owner of this setup request
+  steps:
+    - id: fetch-k8s-files
+      name: Copy K8s Files
+      action: fetch:plain
+      input:
+        repoUrl: ${{ parameters.RepoUrl }}/tree/main/k8s
+        teamName: ${{ parameters.TeamName }}
+        owner: ${{ parameters.Owner }}
+    - id: debug-list
+      name: List Workspace Files
+      action: debug:log
+      input:
+        message: "Files fetched from the repository"
+        listWorkspace: true
+
+
+    
