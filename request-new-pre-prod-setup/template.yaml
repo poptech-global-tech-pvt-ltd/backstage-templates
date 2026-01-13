@@ -11,7 +11,7 @@ spec:
     - title: Setup Details
       required: [RepoUrl, TeamName, Owner]
       properties:
-        dbName:
+        RepoUrl:
           title: Repository URL
           type: string
           description: URL of the existing service repository in Github
