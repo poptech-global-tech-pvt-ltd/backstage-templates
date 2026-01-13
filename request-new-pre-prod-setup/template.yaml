@@ -9,7 +9,7 @@ spec:
   type: request
   parameters:
     - title: Setup Details
-      required: [RepoUrl, TeamName, Owner]
+      required: [RepoUrl, TeamName, Owner, serviceName]
       properties:
         RepoUrl:
           title: Repository URL
@@ -22,7 +22,11 @@ spec:
         Owner:
           title: Owner
           type: string
-          description: Owner of this setup request
+          description: Owner of this setup requestA
+        serviceName:
+          title: Service Name
+          type: string
+          description: Name of the service for which pre-prod setup is requested
   steps:
     - id: fetch-k8s-files
       name: Copy K8s Files
@@ -36,6 +40,19 @@ spec:
       input:
         message: "Files fetched from the repository"
         listWorkspace: true
-
+    # Step 3: Create PR in ArgoCDRepo
+    - id: create-pr
+      name: Create Pull Request in CI/CD Repository
+      action: publish:github:pull-request
+      input:
+        repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=cicd-prod
+        branchName: create-pre-prod-${{ parameters.serviceName }}-setup
+        title: "Add ${{ parameters.serviceName }} to ArgoCD"
+        description: |
+          This PR adds Kubernetes manifests for ${{ parameters.serviceName }}.
+          
+          Source: ${{ parameters.sourceRepoUrl }}
+        sourcePath: ./k8s-files
+        targetPath: ./${{ parameters.serviceName }}-pre-prod
 
     
