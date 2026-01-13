@@ -6,6 +6,7 @@ metadata:
   description: Request Pre-Prod Setup For Your Existing Service
 spec:
   owner: team:infra
+  type: request
   parameters:
     - title: Setup Details
       required: [RepoUrl, TeamName, Owner]
