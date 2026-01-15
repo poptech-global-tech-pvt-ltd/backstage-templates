@@ -4,7 +4,7 @@ FROM golang:1.24.4
 WORKDIR /go/src/app
 
 # Install Orchestrion
-RUN go install github.com/DataDog/orchestrion@v1.5.0
+# RUN go install github.com/DataDog/orchestrion@v1.5.0
 
 # Copy the Go module files
 COPY go.mod .
@@ -20,7 +20,10 @@ COPY . .
 RUN go mod tidy
 RUN go install -v ./...
 # Build with Orchestrion
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 orchestrion go build -tags appsec -o main ${{ values.mainPackagePath }}
+# RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 orchestrion go build -tags appsec -o main ${{ values.mainPackagePath }}
+
+#Build without Orchestrion
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o main ${{ values.mainPackagePath }}
 
 # Expose port
 EXPOSE ${{ values.port }}
