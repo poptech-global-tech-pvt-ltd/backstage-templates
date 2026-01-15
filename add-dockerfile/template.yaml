@@ -24,6 +24,8 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
+            allowedOwners:
+              - poptech-global-tech-pvt-ltd
 
     - title: Build Configuration
       required:
