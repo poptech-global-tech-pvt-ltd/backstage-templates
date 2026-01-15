@@ -65,3 +65,4 @@ spec:
           Source: ${{ parameters.RepoUrl }}
         sourcePath: ./k8s-files
         targetPath: ./${{ parameters.serviceName }}-pre-prod
+        update: true
