@@ -58,10 +58,10 @@ spec:
       input:
         repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=cicd-prod
         branchName: create-pre-prod-${{ parameters.serviceName }}-setup
-        title: "Add ${{ parameters.serviceName }} to ArgoCD"
+        title: "${{ parameters.serviceName }} Pre-Prod Setup Request"
         description: |
           This PR adds Kubernetes manifests for ${{ parameters.serviceName }}.
           
-          Source: ${{ parameters.sourceRepoUrl }}
+          Source: ${{ parameters.RepoUrl }}
         sourcePath: ./k8s-files
         targetPath: ./${{ parameters.serviceName }}-pre-prod
