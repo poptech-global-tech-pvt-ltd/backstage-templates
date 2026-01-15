@@ -1,11 +1,11 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: request-pre-prod
-  title: Request Pre-Prod Setup For Your Existing Service
-  description: Request Pre-Prod Setup For Your Existing Service
+  name: request-pre-prod-from-devops
+  title: Request Pre-Prod Setup For Your Existing Service From DevOps Team
+  description: Request Pre-Prod Setup For Your Existing Service From DevOps Team
 spec:
-  owner: team:infra
+  owner: team:devops
   type: request
   parameters:
     - title: Setup Details
@@ -22,25 +22,36 @@ spec:
         Owner:
           title: Owner
           type: string
-          description: Owner of this setup requestA
+          description: Owner of this setup request
         serviceName:
           title: Service Name
           type: string
           description: Name of the service for which pre-prod setup is requested
   steps:
+  #Step 1 Fetch k8s files from source repository
     - id: fetch-k8s-files
       name: Copy K8s Files
       action: fetch:plain
       input:
         url: ${{ parameters.RepoUrl }}/tree/main/k8s
         targetPath: ./k8s-files
+  #Step 2 Debug log to verify files are fetched
     - id: debug-list
       name: List Workspace Files
       action: debug:log
       input:
         message: "Files fetched from the repository"
         listWorkspace: true
-    # Step 3: Create PR in ArgoCDRepo
+  #Step 3 Custom Backstage Action - Create Pre-Prod Files for new pre-prod environment
+    - id: create-pre-prod-files
+      name: Create Pre-Prod Files
+      action: custom:create-pre-prod-app
+      input:
+        sourcePath: ./k8s-files
+        serviceName: ${{ parameters.serviceName }}
+        teamName: ${{ parameters.TeamName }}
+        owner: ${{ parameters.Owner }}
+  #Step 4 Create PR in cicd-prod repositoryjjjj
     - id: create-pr
       name: Create Pull Request in CI/CD Repository
       action: publish:github:pull-request
@@ -54,5 +65,3 @@ spec:
           Source: ${{ parameters.sourceRepoUrl }}
         sourcePath: ./k8s-files
         targetPath: ./${{ parameters.serviceName }}-pre-prod
-
-    
