@@ -15,17 +15,13 @@ spec:
   parameters:
     - title: Repository Details
       required:
-        - repoUrl
+        - repoName
       properties:
-        repoUrl:
-          title: Repository URL
+        repoName:
+          title: Repository Name
+          description: Select a repository from the organization
           type: string
-          ui:field: RepoUrlPicker
-          ui:options:
-            allowedHosts:
-              - github.com
-            allowedOwners:
-              - poptech-global-tech-pvt-ltd
+          ui:field: PopRepoPicker
 
     - title: Build Configuration
       required:
@@ -57,7 +53,7 @@ spec:
       name: Create Pull Request
       action: publish:github:pull-request
       input:
-        repoUrl: ${{ parameters.repoUrl }}
+        repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=${{ parameters.repoName }}
         branchName: add-dockerfile-go
         title: "Add Dockerfile"
         description: |
