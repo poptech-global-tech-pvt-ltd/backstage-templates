@@ -63,7 +63,7 @@ spec:
           
           Main Package: `${{ parameters.mainPackagePath }}`
           Exposed Port: `${{ parameters.port }}`
-        targetPath: /
+        targetPath: .
         sourcePath: .
 
   output:
