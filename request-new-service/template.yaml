@@ -1,0 +1,53 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: request-new-k8s-service
+  title: Request New Kubernetes Service
+  description: Create a new Kubernetes service with base manifests and overlays
+  tags:
+    - k8s
+spec:
+  owner: user:guest
+  type: service
+
+  parameters:
+    - title: Service Details
+      required:
+        - application_name
+        - environment
+      properties:
+        application_name:
+          title: Application Name
+          type: string
+          description: Unique name of the application (e.g., my-service)
+          ui:autofocus: true
+        environment:
+          title: Environment
+          type: string
+          description: Environment (e.g., dev, stage, prod)
+          default: "dev"
+  steps:
+    - id: fetch-base
+      name: Fetch Base Skeleton
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          application_name: ${{ parameters.application_name }}
+          image_repository: ${{ parameters.image_repository }}
+          image_tag: ${{ parameters.image_tag }}
+          ingress_host_stage: ${{ parameters.ingress_host_stage }}
+          ingress_host_prod: ${{ parameters.ingress_host_prod }}
+    - id: create-ecr
+      action: aws:ecr:create
+      input:
+        repositoryName: ${{ parameters.application_name }}
+        tags:
+          - Key: CreatedBy
+            Value: DevOpsHub
+
+  # output:
+  #   links:
+  #     - title: Open in Catalog
+  #       icon: catalog
+  #       entityRef: ${{ steps['register'].output.entityRef }}

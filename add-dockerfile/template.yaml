@@ -9,7 +9,7 @@ metadata:
     - docker
     - automation
 spec:
-  owner: user:guest
+  owner: team:devops
   type: service
 
   parameters:

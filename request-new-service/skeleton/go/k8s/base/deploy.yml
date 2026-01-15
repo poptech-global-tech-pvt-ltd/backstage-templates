@@ -1,0 +1,123 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+
+  labels:
+    app: ${{ values.application_name }}
+    manifest_type: api
+    tags.datadoghq.com/service: "${{ values.application_name }}"      # Service name for Datadog
+    # tags.datadoghq.com/version: "v1.22-prod"        # Version of the app (you can automate this with CI/CD)
+  name: ${{ values.application_name }}
+spec:
+
+  selector:
+    matchLabels:
+      app: ${{ values.application_name }}
+  template:
+    metadata:
+      labels:
+        app: ${{ values.application_name }}
+        tags.datadoghq.com/service: "${{ values.application_name }}"
+      name: ${{ values.application_name }}
+    spec:
+      containers:
+      - image: ${{ values.image_repository }}:${{ values.image_tag }}
+        envFrom:
+        - secretRef:
+            name: ${{ values.application_name }}-secrets
+        imagePullPolicy: IfNotPresent
+        name: ${{ values.application_name }}
+        ports:
+        - containerPort: 80
+          name: http
+
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /api/health
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          timeoutSeconds: 300
+        readinessProbe:
+          failureThreshold: 3
+
+          httpGet:
+            path: /api/health
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          timeoutSeconds: 300
+        env:
+          - name: DD_SERVICE
+            value: "${{ values.application_name }}"         # Set DD_SERVICE to the service name (jiva-app)
+
+
+
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   labels:
+#     app: jiva-app
+#     manifest_type: api
+#   name: jiva-app
+# spec:
+#   selector:
+#     matchLabels:
+#       app: jiva-app
+#   template:
+#     metadata:
+#       labels:
+#         app: jiva-app
+#       name: jiva-app
+#     spec:
+#       containers:
+#       - image: 835518098452.dkr.ecr.ap-south-1.amazonaws.com/jiva:v1.47-prod
+#         envFrom:
+#         - secretRef:
+#             name: jiva-secrets
+#         imagePullPolicy: IfNotPresent
+#         name: jiva-app
+#         ports:
+#         - containerPort: 80
+#           name: http
+#         livenessProbe:
+#           failureThreshold: 3
+#           httpGet:
+#             path: /api/health
+#             port: 80
+#           initialDelaySeconds: 10
+#           periodSeconds: 30
+#           timeoutSeconds: 300
+#         readinessProbe:
+#           failureThreshold: 3
+#           httpGet:
+#             path: /api/health
+#             port: 80
+#           initialDelaySeconds: 10
+#           periodSeconds: 30
+#           timeoutSeconds: 300
+
+          
+# # Updated image tag to v1.7-stage at 2025-08-04T10:39:47Z
+# # Updated image tag to v1.8-stage at 2025-08-04T10:40:18Z
+# # Updated image tag to v1.9-stage at 2025-08-04T11:52:37Z
+# # Updated image tag to v1.10-stage at 2025-08-05T18:28:38Z
+# # Updated image tag to v1.13-stage at 2025-08-12T10:16:04Z
+# # Updated image tag to v1.3-stage at 2025-08-18T06:09:57Z
+# # Updated image tag to v1.4-PROD at 2025-08-18T06:30:44Z
+# # Updated image tag to v1.5-PROD at 2025-08-18T07:15:44Z
+# # Updated image tag to v1.6-prod at 2025-08-18T08:01:11Z
+# # Updated image tag to v1.7-prod at 2025-08-20T17:11:15Z
+# # Updated image tag to v1.8-prod at 2025-08-20T17:32:39Z
+# # Updated image tag to v1.9-prod at 2025-09-02T08:13:11Z
+# # Updated image tag to v1.10-prod at 2025-09-02T08:13:43Z
+# # Updated image tag to v1.11-prod at 2025-09-02T08:23:32Z
+# # Updated image tag to v1.12-prod at 2025-09-05T11:52:57Z
+# # Updated image tag to v1.13-prod at 2025-09-05T11:55:45Z
+# # Updated image tag to v1.14-prod at 2025-09-05T12:02:37Z
+# # Updated image tag to v1.15-prod at 2025-09-05T12:05:57Z
+# # Updated image tag to v1.16-prod at 2025-09-15T10:55:20Z
+# # Updated image tag to v1.17-prod at 2025-09-15T11:06:47Z
+# # Updated image tag to v1.18-prod at 2025-09-19T09:54:31Z

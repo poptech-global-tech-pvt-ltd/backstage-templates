@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: not-important
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 20%
+      maxUnavailable: 20%
+  minReadySeconds: 10
+  progressDeadlineSeconds: 600
+  template:
+    spec:
+      containers:
+        - name: ${{ values.application_name }}
+          resources:
+            requests:
+              cpu: "400m"
+              memory: "0.5Gi"
+            limits:
+              cpu: "600m"
+              memory: "1Gi"

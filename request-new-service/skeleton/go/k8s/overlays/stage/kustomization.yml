@@ -1,0 +1,15 @@
+resources:
+- ./../../base
+- hpa.yml
+- ingress.yml
+
+patches:
+- target:
+    kind: Deployment
+    labelSelector: "manifest_type=api"
+  path: patches/resources.yml
+
+#add    
+
+
+

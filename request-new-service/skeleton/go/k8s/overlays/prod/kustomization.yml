@@ -1,0 +1,36 @@
+resources:
+  - ./../../base
+  - hpa.yml
+  - ingress.yml
+
+patches:
+  - target:
+      kind: Deployment
+      labelSelector: "manifest_type=api"
+    path: patches/resources.yml
+
+  - target:
+      kind: Deployment
+      labelSelector: "manifest_type=${{ values.application_name }}-cron"
+    path: patches/comms-resources.yml
+
+
+
+
+
+# resources:
+#   - ./../../base
+#   - hpa.yml
+#   - ingress.yml
+
+# patches:
+#   - target:
+#       kind: Deployment
+#       labelSelector: "manifest_type=api"
+#     path: patches/resources.yml
+
+#   - target:
+#       kind: Deployment
+#       labelSelector: "manifest_type=comms-cron"
+#     path: patches/comms-resources.yml
+

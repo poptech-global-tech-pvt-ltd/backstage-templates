@@ -1,0 +1,4 @@
+resources:
+  - ./base
+  - ./overlays/stage
+  - ./overlays/prod
