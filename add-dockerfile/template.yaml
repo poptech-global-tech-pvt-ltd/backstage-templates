@@ -1,0 +1,72 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: add-dockerfile-go
+  title: Add Dockerfile to Go App
+  description: Adds a Dockerfile to an existing Go repository with Orchestrion support
+  tags:
+    - go
+    - docker
+    - automation
+spec:
+  owner: user:guest
+  type: service
+
+  parameters:
+    - title: Repository Details
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository URL
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+    - title: Build Configuration
+      required:
+        - mainPackagePath
+        - port
+      properties:
+        mainPackagePath:
+          title: Main Package Path
+          description: Path to the main package or file to build (e.g ./main.go)
+          type: string
+          default: ./main.go
+        port:
+          title: Container Port
+          description: Port to expose in the Dockerfile
+          type: number
+          default: 80
+
+  steps:
+    - id: fetch-base
+      name: Fetch Skeleton
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          mainPackagePath: ${{ parameters.mainPackagePath }}
+          port: ${{ parameters.port }}
+
+    - id: create-pr
+      name: Create Pull Request
+      action: publish:github:pull-request
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        branchName: add-dockerfile-go
+        title: "Add Dockerfile for Go App"
+        description: |
+          This PR adds a Dockerfile configured for Go 1.24.4 with Orchestrion support.
+          
+          Main Package: `${{ parameters.mainPackagePath }}`
+          Exposed Port: `${{ parameters.port }}`
+        targetPath: /
+        sourcePath: .
+
+  output:
+    links:
+      - title: Pull Request
+        url: ${{ steps['create-pr'].output.remoteUrl }}
