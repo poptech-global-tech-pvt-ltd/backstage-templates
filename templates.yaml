@@ -10,4 +10,5 @@ spec:
     - request-new-rds-database/template.yaml
     - request-new-pre-prod-setup/template.yaml
     - add-dockerfile/template.yaml
+    - request-new-service/template.yaml
     # Add all your template paths here
