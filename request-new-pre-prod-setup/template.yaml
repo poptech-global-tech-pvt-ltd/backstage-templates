@@ -45,7 +45,7 @@ spec:
   #Step 3 Custom Backstage Action - Create Pre-Prod Files for new pre-prod environment
     - id: create-pre-prod-files
       name: Create Pre-Prod Files
-      action: custom:create-pre-prod-app
+      action: pop:create-pre-prod-app
       input:
         sourcePath: ./k8s-files
         serviceName: ${{ parameters.serviceName }}
