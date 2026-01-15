@@ -57,9 +57,9 @@ spec:
       input:
         repoUrl: ${{ parameters.repoUrl }}
         branchName: add-dockerfile-go
-        title: "Add Dockerfile for Go App"
+        title: "Add Dockerfile"
         description: |
-          This PR adds a Dockerfile configured for Go 1.24.4 with Orchestrion support.
+          This PR adds a Dockerfile.
           
           Main Package: `${{ parameters.mainPackagePath }}`
           Exposed Port: `${{ parameters.port }}`
