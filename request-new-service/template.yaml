@@ -5,16 +5,19 @@ metadata:
   title: Request New Kubernetes Service
   description: Create a new Kubernetes service with base manifests and overlays
   tags:
+    - UNDER-CONSTRUCTION
     - k8s
 spec:
-  owner: user:guest
-  type: service
+  owner: team:devops
+  type: request
 
   parameters:
     - title: Service Details
       required:
         - application_name
         - environment
+        - team_name
+        - owner
       properties:
         application_name:
           title: Application Name
@@ -24,20 +27,22 @@ spec:
         environment:
           title: Environment
           type: string
-          description: Environment (e.g., dev, stage, prod)
-          default: "dev"
+          description: Environment (e.g., stage, prod)
+          default: stage
+          enum:
+            - stage
+            - prod
+        team_name:
+          title: Team Name
+          type: string
+          description: Team name (e.g., devops)
+          default: My Team
+        owner:
+          title: Owner
+          type: string
+          description: Owner (e.g., devops)
+          default: Service Owner
   steps:
-    - id: fetch-base
-      name: Fetch Base Skeleton
-      action: fetch:template
-      input:
-        url: ./skeleton
-        values:
-          application_name: ${{ parameters.application_name }}
-          image_repository: ${{ parameters.image_repository }}
-          image_tag: ${{ parameters.image_tag }}
-          ingress_host_stage: ${{ parameters.ingress_host_stage }}
-          ingress_host_prod: ${{ parameters.ingress_host_prod }}
     - id: create-ecr
       action: aws:ecr:create
       input:
@@ -45,9 +50,27 @@ spec:
         tags:
           - Key: CreatedBy
             Value: DevOpsHub
-
-  # output:
-  #   links:
-  #     - title: Open in Catalog
-  #       icon: catalog
-  #       entityRef: ${{ steps['register'].output.entityRef }}
+    - id: fetch-base
+      name: Fetch Base Skeleton
+      action: fetch:template
+      input:
+        url: ./skeleton/go
+        values:
+          application_name: ${{ parameters.application_name }}
+          image_repository: ${{ parameters.application_name }}
+          image_tag: "init"
+          ingress_host_stage: ${{ parameters.ingress_host_stage }}
+          ingress_host_prod: ${{ parameters.ingress_host_prod }}
+    - id: create-repo
+      action: github:repo:create
+      input:
+        repoUrl: ${{ parameters.application_name }}
+        description: ${{ parameters.application_name }}
+        visibility: public
+    - id: push-to-repo
+      action: github:repo:push
+      input:
+        repoUrl: ${{ parameters.application_name }}
+        branch: main
+        sourcePath: .
+        
