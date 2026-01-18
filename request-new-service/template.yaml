@@ -44,7 +44,9 @@ spec:
           default: Service Owner
   steps:
     - id: create-ecr
+      name: Create ECR Repository
       action: aws:ecr:create
+      continueOnError: true
       input:
         repositoryName: ${{ parameters.application_name }}
         tags:
@@ -66,7 +68,6 @@ spec:
       input:
         repoUrl: ${{ parameters.application_name }}
         description: ${{ parameters.application_name }}
-        visibility: public
     - id: push-to-repo
       action: github:repo:push
       input:
