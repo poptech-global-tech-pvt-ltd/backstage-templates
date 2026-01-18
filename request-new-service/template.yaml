@@ -5,7 +5,7 @@ metadata:
   title: Request New Kubernetes Service
   description: Create a new Kubernetes service with base manifests and overlays
   tags:
-    - UNDER-CONSTRUCTION
+    - under-construction
     - k8s
 spec:
   owner: team:devops
