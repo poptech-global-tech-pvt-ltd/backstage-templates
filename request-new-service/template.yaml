@@ -63,15 +63,16 @@ spec:
           image_tag: "init"
           ingress_host_stage: ${{ parameters.ingress_host_stage }}
           ingress_host_prod: ${{ parameters.ingress_host_prod }}
-    - id: create-repo
-      action: github:repo:create
-      input:
-        repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=${{ parameters.application_name }}
-        description: ${{ parameters.application_name }}
-      continueOnError: true
+    # - id: create-repo
+    #   action: github:repo:create
+    #   input:
+    #     repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=${{ parameters.application_name }}
+    #     description: ${{ parameters.application_name }}
+    #   continueOnError: true
     - id: push-to-repo
       action: github:repo:push
       input:
         repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=${{ parameters.application_name }}
         defaultBranch: main
         sourcePath: .
+        gitCommitMessage: "Initial commit"
