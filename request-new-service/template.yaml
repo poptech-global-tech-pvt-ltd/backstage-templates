@@ -66,12 +66,12 @@ spec:
     - id: create-repo
       action: github:repo:create
       input:
-        repoUrl: ${{ parameters.application_name }}
+        repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=${{ parameters.application_name }}
         description: ${{ parameters.application_name }}
     - id: push-to-repo
       action: github:repo:push
       input:
-        repoUrl: ${{ parameters.application_name }}
+        repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=${{ parameters.application_name }}
         branch: main
         sourcePath: .
         
