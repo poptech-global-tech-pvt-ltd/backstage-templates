@@ -68,6 +68,7 @@ spec:
       input:
         repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=${{ parameters.application_name }}
         description: ${{ parameters.application_name }}
+      continueOnError: true
     - id: push-to-repo
       action: github:repo:push
       input:
