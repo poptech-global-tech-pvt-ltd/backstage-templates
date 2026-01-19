@@ -114,7 +114,7 @@ spec:
           ingress_host_prod: ${{ parameters.ingress_host_prod }}
           team_name: ${{ parameters.team_name }}
           owner: ${{ parameters.owner }}
-        targetPath: ./${{ parameters.application_name }}/argocd-app.yaml
+        targetPath: ./${{ parameters.application_name }}/argocdapp
     - id: create-pr-argocd
       action: publish:github:pull-request
       input:
@@ -123,5 +123,5 @@ spec:
         description: "Adding ${{ parameters.application_name }} to argocd"
         title: "Add ${{ parameters.application_name }} to argocd"
         commitMessage: "Adds ${{ parameters.application_name }} to argocd"
-        sourcePath: ./${{ parameters.application_name }}/argocd-app.yaml
-        targetPath: ./${{ parameters.application_name }}/argocd-app.yaml
+        sourcePath: ./${{ parameters.application_name }}/argocdapp
+        targetPath: ./${{ parameters.application_name }}
