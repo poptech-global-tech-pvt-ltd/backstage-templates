@@ -9,11 +9,6 @@ patches:
       labelSelector: "manifest_type=api"
     path: patches/resources.yml
 
-  - target:
-      kind: Deployment
-      labelSelector: "manifest_type=${{ values.application_name }}-cron"
-    path: patches/comms-resources.yml
-
 
 
 

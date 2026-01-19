@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   project: prod-deployment
   source:
-    path: ${{ values.application_name }}/overlays/prod
+    path: ${{ values.application_name }}/k8s/overlays/prod
     repoURL: https://github.com/poptech-global-tech-pvt-ltd/cicd-prod
     targetRevision: HEAD
   syncPolicy:
