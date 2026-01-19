@@ -56,7 +56,7 @@ spec:
       name: Fetch Base Skeleton
       action: fetch:template
       input:
-        url: ./skeleton/go
+        url: ./skeleton/go/repository
         values:
           application_name: ${{ parameters.application_name }}
           image_repository: ${{ parameters.application_name }}
