@@ -1,10 +1,10 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: ${{ parameters.application_name }}
+  name: ${{ values.application_name }}
   annotations:
-    github.com/project-slug: poptech-global-tech-pvt-ltd/${{ parameters.application_name }}
+    github.com/project-slug: poptech-global-tech-pvt-ltd/${{ values.application_name }}
 spec:
-  type: other
-  lifecycle: unknown
-  owner: ${{ parameters.team_name }}
+  type: service
+  lifecycle: experimental
+  owner: ${{ values.team_name }}
