@@ -13,17 +13,17 @@ jobs:
               id: build-and-push
               uses: poptech-global-tech-pvt-ltd/BuildAndPush@main
               with:
-                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                aws-access-key-id: ${{ '${{ secrets.AWS_ACCESS_KEY_ID }}' }}
+                aws-secret-access-key: ${{ '${{ secrets.AWS_SECRET_ACCESS_KEY }}' }}
                 image-name: ${{ values.application_name }}
-                image-tag: ${{ github.sha }}
+                image-tag: ${{ '${{ github.sha }}' }}
             - name: Deploy to K8s
               uses: poptech-global-tech-pvt-ltd/DeployToK8s@main
               with:
                 manifest-repo: 'poptech-global-tech-pvt-ltd/cicd-prod'
                 manifest-path: '${{ values.application_name }}/k8s/base/deploy.yml'
-                image-registry: ${{ steps.build-and-push.outputs.ecr-registry }}
+                image-registry: ${{ '${{ steps.build-and-push.outputs.ecr-registry }}' }}
                 image-name: ${{ values.application_name }}
-                image-tag: ${{ github.sha }}
-                github-token: ${{ secrets.DEVOPS_PAT }} 
+                image-tag: ${{ '${{ github.sha }}' }}
+                github-token: ${{ '${{ secrets.DEVOPS_PAT }}' }} 
                 create-pr: 'false'
