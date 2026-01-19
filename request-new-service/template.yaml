@@ -105,7 +105,7 @@ spec:
     - id: fetch-argo-template
       action: fetch:template
       input:
-        url: ./skeleton/argocd-app.yaml
+        url: ./skeleton/argocd
         values:
           application_name: ${{ parameters.application_name }}
           image_repository: ${{ parameters.application_name }}
@@ -114,8 +114,9 @@ spec:
           ingress_host_prod: ${{ parameters.ingress_host_prod }}
           team_name: ${{ parameters.team_name }}
           owner: ${{ parameters.owner }}
-        targetPath: ./${{ parameters.application_name }}/argocdapp
+        targetPath: ./argocdapp
     - id: create-pr-argocd
+      name: Create PR for ArgoCD
       action: publish:github:pull-request
       input:
         repoUrl: github.com?repo=ArgoCDApps&owner=poptech-global-tech-pvt-ltd
@@ -123,5 +124,5 @@ spec:
         description: "Adding ${{ parameters.application_name }} to argocd"
         title: "Add ${{ parameters.application_name }} to argocd"
         commitMessage: "Adds ${{ parameters.application_name }} to argocd"
-        sourcePath: ./${{ parameters.application_name }}/argocdapp
+        sourcePath: ./argocdapp
         targetPath: ./prod/${{ parameters.application_name }}
