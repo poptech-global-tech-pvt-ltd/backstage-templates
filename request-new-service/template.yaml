@@ -77,4 +77,3 @@ spec:
         repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=${{ parameters.application_name }}
         defaultBranch: main
         sourcePath: .
-        commitMessage: "Initial commit"
