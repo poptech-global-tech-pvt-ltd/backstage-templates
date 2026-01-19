@@ -28,14 +28,14 @@ spec:
         imagePullPolicy: IfNotPresent
         name: ${{ values.application_name }}
         ports:
-        - containerPort: 80
+        - containerPort: 8000
           name: http
 
         livenessProbe:
           failureThreshold: 3
           httpGet:
-            path: /api/health
-            port: 80
+            path: /health
+            port: 8000
           initialDelaySeconds: 10
           periodSeconds: 30
           timeoutSeconds: 300
@@ -43,8 +43,8 @@ spec:
           failureThreshold: 3
 
           httpGet:
-            path: /api/health
-            port: 80
+            path: /health
+            port: 8000
           initialDelaySeconds: 10
           periodSeconds: 30
           timeoutSeconds: 300
