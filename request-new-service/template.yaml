@@ -96,12 +96,12 @@ spec:
       action: publish:github:pull-request
       input:
         repoUrl: github.com?repo=cicd-prod&owner=poptech-global-tech-pvt-ltd
-        branchName: add-${{ parameters.appName }}
+        branchName: add-${{ parameters.application_name }}
         description: "Adding new app"
         title: "Add app"
         commitMessage: "Adds app"
-        sourcePath: ./${{ parameters.appName }}/k8s
-        targetPath: ./${{ parameters.appName }}/k8s
+        sourcePath: ./${{ parameters.application_name }}/k8s
+        targetPath: ./${{ parameters.application_name }}/k8s
 
     # - id: push-argo-app-to-cicd-repo
     #   action: github:repo:push
