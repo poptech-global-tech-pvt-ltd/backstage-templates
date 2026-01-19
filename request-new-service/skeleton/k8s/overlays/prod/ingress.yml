@@ -14,7 +14,7 @@ metadata:
     alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
 spec:
   rules:
-    - host: ${{ values.ingress_host_prod }}
+    - host: ${{ values.application_name }}.pop-club-internal.co
       http:
         paths: 
           - path: /

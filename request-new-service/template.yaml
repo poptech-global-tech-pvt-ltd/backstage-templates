@@ -42,6 +42,11 @@ spec:
           type: string
           description: Owner (e.g., devops)
           default: Service Owner
+        dns_target:
+          title: DNS Target
+          type: string
+          description: The target IP or DNS name for the Route 53 record (e.g., Load Balancer DNS)
+          default: 'k8s-devops-069fd240df-1383796856.ap-south-1.elb.amazonaws.com'
   steps:
     - id: create-ecr
       name: Create ECR Repository
@@ -106,6 +111,15 @@ spec:
         commitMessage: "Adds ${{ parameters.application_name }} to cicd-prod"
         sourcePath: ./${{ parameters.application_name }}/k8s
         targetPath: ./${{ parameters.application_name }}/k8s
+    - id: create-dns-record
+      name: Create Route 53 DNS Record
+      action: aws:route53:create-record
+      input:
+        hostedZoneName: 'pop-club-internal.'
+        recordName: '${{ parameters.application_name }}.pop-club-internal.'
+        target: '${{ parameters.dns_target }}'
+        recordType: 'CNAME'
+        comment: 'Created by Backstage for ${{ parameters.application_name }}'
     - id: fetch-argo-template
       name: Fetch Base Skeleton for Application's ArgoCD Manifests
       action: fetch:template
