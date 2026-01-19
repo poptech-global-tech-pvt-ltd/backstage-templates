@@ -79,15 +79,28 @@ spec:
         repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=${{ parameters.application_name }}
         defaultBranch: main
         sourcePath: .
+    - id: fetch-k8s-template
+      action: fetch:template
+      input:
+        url: ./skeleton/k8s
+        values:
+          application_name: ${{ parameters.application_name }}
+          image_repository: ${{ parameters.application_name }}
+          image_tag: "init"
+          ingress_host_stage: ${{ parameters.ingress_host_stage }}
+          ingress_host_prod: ${{ parameters.ingress_host_prod }}
+          team_name: ${{ parameters.team_name }}
+          owner: ${{ parameters.owner }}
+        targetPath: ./${{ parameters.application_name }}/k8s
     - id: push-k8s-files-to-cicd-repo
       action: github:repo:push
       input:
-        repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=cicd-prod/${{ parameters.application_name }}
+        repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=cicd-prod
         defaultBranch: main
-        sourcePath: ./k8s
-    - id: push-argo-app-to-cicd-repo
-      action: github:repo:push
-      input:
-        repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=cicd-prod/prod/${{ parameters.application_name }}  
-        defaultBranch: main
-        sourcePath: ./argocd-app.yaml
+        sourcePath: ./${{ parameters.application_name }}/k8s
+    # - id: push-argo-app-to-cicd-repo
+    #   action: github:repo:push
+    #   input:
+    #     repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=cicd-prod
+    #     defaultBranch: main
+    #     sourcePath: ./argocd-app.yaml
