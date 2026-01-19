@@ -97,6 +97,7 @@ spec:
       input:
         repoUrl: github.com?repo=cicd-prod&owner=poptech-global-tech-pvt-ltd
         branchName: add-${{ parameters.appName }}
+        description: "Adding new app"
         title: "Add app"
         commitMessage: "Adds app"
         sourcePath: ./${{ parameters.appName }}/k8s
