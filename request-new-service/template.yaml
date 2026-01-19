@@ -125,4 +125,4 @@ spec:
         title: "Add ${{ parameters.application_name }} to argocd"
         commitMessage: "Adds ${{ parameters.application_name }} to argocd"
         sourcePath: ./argocdapp
-        targetPath: ./prod/${{ parameters.application_name }}
+        targetPath: ./prod
