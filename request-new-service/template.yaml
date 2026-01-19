@@ -55,7 +55,7 @@ spec:
           - Key: team
             Value: ${{ parameters.team_name }}
     - id: fetch-base
-      name: Fetch Base Skeleton
+      name: Fetch Base Skeleton for Application Codebase
       action: fetch:template
       input:
         url: ./skeleton/go/repository
@@ -68,18 +68,21 @@ spec:
           team_name: ${{ parameters.team_name }}
           owner: ${{ parameters.owner }}
     - id: create-repo
+      name: Create GitHub Repository for Application
       action: github:repo:create
       continueOnError: true
       input:
         repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=${{ parameters.application_name }}
         description: ${{ parameters.application_name }}
     - id: push-to-repo
+      name: Push Application Codebase to GitHub Repository
       action: github:repo:push
       input:
         repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=${{ parameters.application_name }}
         defaultBranch: main
         sourcePath: .
     - id: fetch-k8s-template
+      name: Fetch Base Skeleton for Application's Kubernetes Manifests
       action: fetch:template
       input:
         url: ./skeleton/k8s
@@ -93,6 +96,7 @@ spec:
           owner: ${{ parameters.owner }}
         targetPath: ./${{ parameters.application_name }}/k8s
     - id: create-pr-cicd-prod
+      name: Create Pull Request for Application's Kubernetes Manifests
       action: publish:github:pull-request
       input:
         repoUrl: github.com?repo=cicd-prod&owner=poptech-global-tech-pvt-ltd
@@ -103,6 +107,7 @@ spec:
         sourcePath: ./${{ parameters.application_name }}/k8s
         targetPath: ./${{ parameters.application_name }}/k8s
     - id: fetch-argo-template
+      name: Fetch Base Skeleton for Application's ArgoCD Manifests
       action: fetch:template
       input:
         url: ./skeleton/argocd
@@ -116,7 +121,7 @@ spec:
           owner: ${{ parameters.owner }}
         targetPath: ./argocdapp
     - id: create-pr-argocd
-      name: Create PR for ArgoCD
+      name: Create Pull Request for ArgoCD
       action: publish:github:pull-request
       input:
         repoUrl: github.com?repo=ArgoCDApps&owner=poptech-global-tech-pvt-ltd

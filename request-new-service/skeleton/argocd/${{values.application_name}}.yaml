@@ -13,6 +13,8 @@ spec:
     repoURL: https://github.com/poptech-global-tech-pvt-ltd/cicd-prod
     targetRevision: HEAD
   syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
     syncOptions:
-    - ApplyOutOfSyncOnly=true
-    - PruneLast=true
+      - CreateNamespace=true
