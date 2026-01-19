@@ -9,7 +9,5 @@ patches:
     labelSelector: "manifest_type=api"
   path: patches/resources.yml
 
-#add    
-
 
 
