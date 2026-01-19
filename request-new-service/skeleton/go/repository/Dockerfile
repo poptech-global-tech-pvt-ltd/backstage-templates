@@ -26,7 +26,7 @@ RUN go install -v ./...
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o main ${{ values.application_name }}
 
 # Expose port
-EXPOSE ${{ values.port }}
+EXPOSE 8000
 
 # Run the binary
 CMD ["./main"]
