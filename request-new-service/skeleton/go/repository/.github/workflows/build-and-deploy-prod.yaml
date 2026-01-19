@@ -1,17 +1,29 @@
-name: Build and Deploy Prod
+name: Deploy ${{ values.application_name }} To Production
 on:
-  push:
+  push: 
     branches:
       - main
 jobs:
-  build:
-    runs-on: pop-ubuntu
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.24.1'
-      - name: Build
-        run: go build -o ${{ values.application_name }} .
+    build-and-deploy:
+        runs-on: pop-ubuntu 
+        steps:
+            - name: Checkout code 
+              uses: actions/checkout@v3
+            - name: Build and Push Docker Image to ECR
+              id: build-and-push
+              uses: poptech-global-tech-pvt-ltd/BuildAndPush@main
+              with:
+                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                image-name: ${{ values.application_name }}
+                image-tag: ${{ github.sha }}
+            - name: Deploy to K8s
+              uses: poptech-global-tech-pvt-ltd/DeployToK8s@main
+              with:
+                manifest-repo: 'poptech-global-tech-pvt-ltd/cicd-prod'
+                manifest-path: '${{ values.application_name }}/k8s/base/deploy.yml'
+                image-registry: ${{ steps.build-and-push.outputs.ecr-registry }}
+                image-name: ${{ values.application_name }}
+                image-tag: ${{ github.sha }}
+                github-token: ${{ secrets.DEVOPS_PAT }} 
+                create-pr: 'false'
