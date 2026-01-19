@@ -140,7 +140,7 @@ spec:
       name: Create Route 53 DNS Record
       action: aws:route53:create-record
       input:
-        hostedZoneName: 'pop-club-internal.co'
+        hostedZoneName: 'Z04748231QO6X91YJ8W9W'
         recordName: '${{ parameters.application_name }}.pop-club-internal.co'
         target: '${{ parameters.dns_target }}'
         recordType: 'A'
