@@ -7,6 +7,7 @@ WORKDIR /go/src/app
 # RUN go install github.com/DataDog/orchestrion@v1.5.0
 
 # Copy the Go module files
+RUN go mod tidy
 COPY go.mod .
 COPY go.sum .
 
