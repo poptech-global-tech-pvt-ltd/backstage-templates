@@ -21,7 +21,7 @@ spec:
       name: ${{ values.application_name }}
     spec:
       containers:
-      - image: ${{ values.image_repository }}:${{ values.image_tag }}
+      - image: 835518098452.dkr.ecr.ap-south-1.amazonaws.com/${{ values.image_repository }}:${{ values.image_tag }}
         envFrom:
         - secretRef:
             name: ${{ values.application_name }}-secrets
