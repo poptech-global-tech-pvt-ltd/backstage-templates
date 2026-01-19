@@ -111,15 +111,6 @@ spec:
         commitMessage: "Adds ${{ parameters.application_name }} to cicd-prod"
         sourcePath: ./${{ parameters.application_name }}/k8s
         targetPath: ./${{ parameters.application_name }}/k8s
-    - id: create-dns-record
-      name: Create Route 53 DNS Record
-      action: aws:route53:create-record
-      input:
-        hostedZoneName: 'pop-club-internal.'
-        recordName: '${{ parameters.application_name }}.pop-club-internal.'
-        target: '${{ parameters.dns_target }}'
-        recordType: 'CNAME'
-        comment: 'Created by Backstage for ${{ parameters.application_name }}'
     - id: fetch-argo-template
       name: Fetch Base Skeleton for Application's ArgoCD Manifests
       action: fetch:template
@@ -145,3 +136,12 @@ spec:
         commitMessage: "Adds ${{ parameters.application_name }} to argocd"
         sourcePath: ./argocdapp
         targetPath: ./prod
+    - id: create-dns-record
+      name: Create Route 53 DNS Record
+      action: aws:route53:create-record
+      input:
+        hostedZoneName: 'pop-club-internal.co'
+        recordName: '${{ parameters.application_name }}.pop-club-internal.co'
+        target: '${{ parameters.dns_target }}'
+        recordType: 'A'
+        comment: 'Created by DevOps Hub for ${{ parameters.application_name }}'
