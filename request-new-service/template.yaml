@@ -63,6 +63,8 @@ spec:
           image_tag: "init"
           ingress_host_stage: ${{ parameters.ingress_host_stage }}
           ingress_host_prod: ${{ parameters.ingress_host_prod }}
+          team_name: ${{ parameters.team_name }}
+          owner: ${{ parameters.owner }}
     - id: create-repo
       action: github:repo:create
       continueOnError: true
