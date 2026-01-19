@@ -98,6 +98,7 @@ spec:
         repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=cicd-prod
         defaultBranch: main
         sourcePath: ./${{ parameters.application_name }}/k8s
+        force: true
     # - id: push-argo-app-to-cicd-repo
     #   action: github:repo:push
     #   input:
