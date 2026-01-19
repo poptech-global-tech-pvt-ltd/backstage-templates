@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${{ values.application_name }}
+  namespace: argocd
+spec:
+  destination:
+    namespace: pop-pre-prod
+    server: https://kubernetes.default.svc
+  project: prod-deployment
+  source:
+    path: ${{ values.application_name }}/overlays/prod
+    repoURL: https://github.com/poptech-global-tech-pvt-ltd/cicd-prod
+    targetRevision: HEAD
+  syncPolicy:
+    syncOptions:
+    - ApplyOutOfSyncOnly=true
+    - PruneLast=true

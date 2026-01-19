@@ -52,6 +52,8 @@ spec:
         tags:
           - Key: CreatedBy
             Value: DevOpsHub
+          - Key: team
+            Value: ${{ parameters.team_name }}
     - id: fetch-base
       name: Fetch Base Skeleton
       action: fetch:template
@@ -77,3 +79,17 @@ spec:
         repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=${{ parameters.application_name }}
         defaultBranch: main
         sourcePath: .
+    - id: push-k8s-files-to-cicd-repo
+      action: github:repo:push
+      input:
+        repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=cicd-prod  
+        defaultBranch: main
+        sourcePath: ./k8s
+        targetPath: ${{ parameters.application_name }}
+    - id: push-argo-app-to-cicd-repo
+      action: github:repo:push
+      input:
+        repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=cicd-prod  
+        defaultBranch: main
+        sourcePath: ./argocd-app.yaml
+        targetPath: prod/${{ parameters.application_name }}
