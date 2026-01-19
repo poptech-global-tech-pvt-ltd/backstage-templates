@@ -92,13 +92,16 @@ spec:
           team_name: ${{ parameters.team_name }}
           owner: ${{ parameters.owner }}
         targetPath: ./${{ parameters.application_name }}/k8s
-    - id: push-k8s-files-to-cicd-repo
-      action: github:repo:push
+    - id: create-pr
+      action: publish:github:pull-request
       input:
-        repoUrl: github.com?owner=poptech-global-tech-pvt-ltd&repo=cicd-prod
-        defaultBranch: main
-        sourcePath: ./${{ parameters.application_name }}/k8s
-        force: true
+        repoUrl: github.com?repo=cicd-prod&owner=poptech-global-tech-pvt-ltd
+        branchName: add-${{ parameters.appName }}
+        title: "Add app"
+        commitMessage: "Adds app"
+        sourcePath: ./${{ parameters.appName }}/k8s
+        targetPath: ./${{ parameters.appName }}/k8s
+
     # - id: push-argo-app-to-cicd-repo
     #   action: github:repo:push
     #   input:
