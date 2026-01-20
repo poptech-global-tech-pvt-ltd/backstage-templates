@@ -18,6 +18,7 @@ spec:
         - environment
         - team_name
         - owner
+        - database_needed
       properties:
         application_name:
           title: Application Name
@@ -42,6 +43,13 @@ spec:
           type: string
           description: Owner (e.g., devops)
           default: Service Owner
+        database_needed:
+          title: Create New Database (EXPERIMENTAL)
+          type: enum
+          description: Do you need a new RDS database? Please use existing stage database for Stage environment. 
+          enum:
+            - true
+            - false
   steps:
     - id: create-ecr
       name: Create ECR Repository
