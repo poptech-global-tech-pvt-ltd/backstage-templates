@@ -7,7 +7,7 @@ import (
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "This is your new app. Please reach out to DevOps Team for any requests")
+		fmt.Fprintf(w, "Your new app is ready. Please reach out to DevOps Team for any requests!")
 	})
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
