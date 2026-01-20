@@ -48,8 +48,8 @@ spec:
           type: string
           description: Do you need a new RDS database? Please use existing stage database for Stage environment. 
           enum:
-            - true
-            - false
+            - Yes
+            - No
   steps:
     - id: create-ecr
       name: Create ECR Repository
