@@ -144,6 +144,11 @@ spec:
       action: aws:route53:create-record
       input:
         applicationName: ${{ parameters.application_name }}
+    - id: register-catalog
+      name: Register Service in Catalog
+      action: catalog:register
+      input:
+        catalogInfoUrl: https://github.com/poptech-global-tech-pvt-ltd/${{ parameters.application_name }}/blob/main/catalog-info.yaml
 
   output:
     text:
@@ -156,3 +161,6 @@ spec:
           - [cicd-prod PR](${{ steps['create-pr-cicd-prod'].output.remoteUrl }})
           
           Your new service will be available at **${{ steps['create-route53-dns-entry'].output.dnsName }}** shortly after the PRs are merged.
+    links:
+      - title: View in Catalog
+        entityRef: ${{ steps['register-catalog'].output.entityRef }}
