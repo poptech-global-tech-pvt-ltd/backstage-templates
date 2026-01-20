@@ -131,3 +131,8 @@ spec:
         commitMessage: "Adds ${{ parameters.application_name }} to argocd"
         sourcePath: ./argocdapp
         targetPath: ./prod
+    - id: create-route53-dns-entry
+      name: Create Route 53 DNS Entry
+      action: aws:route53:create-record
+      input:
+        applicationName: ${{ parameters.application_name }}
