@@ -42,11 +42,6 @@ spec:
           type: string
           description: Owner (e.g., devops)
           default: Service Owner
-        dns_target:
-          title: DNS Target
-          type: string
-          description: The target IP or DNS name for the Route 53 record (e.g., Load Balancer DNS)
-          default: 'k8s-devops-069fd240df-1383796856.ap-south-1.elb.amazonaws.com'
   steps:
     - id: create-ecr
       name: Create ECR Repository
@@ -136,12 +131,3 @@ spec:
         commitMessage: "Adds ${{ parameters.application_name }} to argocd"
         sourcePath: ./argocdapp
         targetPath: ./prod
-    - id: create-dns-record
-      name: Create Route 53 DNS Record
-      action: aws:route53:create-record
-      input:
-        hostedZoneName: 'Z04748231QO6X91YJ8W9W'
-        recordName: '${{ parameters.application_name }}.pop-club-internal.co'
-        target: '${{ parameters.dns_target }}'
-        recordType: 'A'
-        comment: 'Created by DevOps Hub for ${{ parameters.application_name }}'
