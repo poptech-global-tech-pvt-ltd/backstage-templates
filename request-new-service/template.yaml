@@ -144,3 +144,15 @@ spec:
       action: aws:route53:create-record
       input:
         applicationName: ${{ parameters.application_name }}
+
+  output:
+    text:
+      - title: Next Steps
+        content: |
+          ## 🎉 Your new service has been created!
+          
+          **Please get these PRs approved from DevOps:**
+          - [ArgoCD PR](${{ steps['create-pr-argocd'].output.remoteUrl }})
+          - [cicd-prod PR](${{ steps['create-pr-cicd-prod'].output.remoteUrl }})
+          
+          Your new service will be available at **${{ steps['create-route53-dns-entry'].output.dnsName }}** shortly after the PRs are merged.
